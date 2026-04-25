@@ -303,7 +303,8 @@
         <div class="main-content">
             <div class="input-section">
                 <h2>Raw Domain Scores</h2>
-                <p style="font-size: 0.75rem; margin-bottom: 1.5rem; opacity: 0.6;">Input score for each domain (Range: 1 - 10).</p>
+                <p style="font-size: 0.75rem; margin-bottom: 1.5rem; opacity: 0.6;">Input score for each domain (Range:
+                    1 - 10).</p>
 
                 <div class="client-info">
                     <div class="info-group">
@@ -329,7 +330,8 @@
             <div class="visualization-section">
                 <canvas id="wheelCanvas" width="2000" height="2260"></canvas>
                 <div class="instructions">
-                    <strong>Interpretation:</strong> Input scores (1–10) for each domain (rounded to 0.1). A score of 5.5
+                    <strong>Interpretation:</strong> Input scores (1–10) for each domain (rounded to 0.1). A score of
+                    5.5
                     represents the exact midpoint of the scale.
                 </div>
             </div>
@@ -578,30 +580,44 @@
                 };
             });
 
-            // Draw filled polygon with domain color gradients (wedge by wedge)
+            // Draw filled polygon with domain color gradients (ultra-smooth angular blend)
+            ctx.save();
             ctx.globalAlpha = 0.55;
 
-            // Fill each wedge with its domain's color gradient
+            // Define the polygon path
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
             points.forEach((p, i) => {
-                const nextP = points[(i + 1) % points.length];
-                const domainColor = activeDomains[i].color;
-
-                // Create radial gradient from center outward using domain color
-                const wedgeGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, maxRadius);
-                wedgeGradient.addColorStop(0, '#F2F0E6');      // Center: light
-                wedgeGradient.addColorStop(0.5, domainColor);  // Mid: domain color
-                wedgeGradient.addColorStop(1, domainColor);    // Edge: domain color
-
-                // Draw wedge (triangle-like shape from center through the two adjacent edge points)
-                ctx.beginPath();
-                ctx.moveTo(centerX, centerY);
-                ctx.lineTo(p.x, p.y);
-                ctx.lineTo(nextP.x, nextP.y);
-                ctx.closePath();
-                ctx.fillStyle = wedgeGradient;
-                ctx.fill();
+                if (i > 0) ctx.lineTo(p.x, p.y);
             });
+            ctx.closePath();
 
+            // Clip all drawing to the polygon
+            ctx.clip();
+
+            // 1. Fill with a heavily blurred angular (conic) gradient
+            const startAngle = points[0].angle;
+            const conicGradient = ctx.createConicGradient(startAngle, centerX, centerY);
+
+            points.forEach((p, i) => {
+                conicGradient.addColorStop(i / points.length, activeDomains[i].color);
+            });
+            conicGradient.addColorStop(1, activeDomains[0].color); // close the loop
+
+            ctx.filter = 'blur(100px)'; // Heavy blur to remove linear gradient creases
+            ctx.fillStyle = conicGradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 2. Add the center lightness fade
+            ctx.filter = 'none'; // Turn off blur for the radial fade
+            const centerFade = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, maxRadius * 0.6);
+            centerFade.addColorStop(0, '#F2F0E6');      // Center: light
+            centerFade.addColorStop(1, 'rgba(242, 240, 230, 0)');  // Fade out
+
+            ctx.fillStyle = centerFade;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.restore(); // Resets alpha, clip, filter
             ctx.globalAlpha = 1.0;
 
             // Draw polygon outline
@@ -615,18 +631,6 @@
             ctx.closePath();
             ctx.stroke();
 
-            // Draw points/nodes at each domain
-            points.forEach((p, i) => {
-                const domainColor = activeDomains[i].color;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, 6 * scale, 0, Math.PI * 2);
-                ctx.fillStyle = '#FFFFFF';
-                ctx.fill();
-                ctx.strokeStyle = domainColor;
-                ctx.lineWidth = 2.5 * scale;
-                ctx.stroke();
-            });
-
             // Draw radial guide lines
             ctx.strokeStyle = 'rgba(26,77,86,0.15)';
             ctx.lineWidth = 1.5 * scale;
@@ -638,6 +642,18 @@
                 ctx.stroke();
             });
             ctx.setLineDash([]);
+
+            // Draw points/nodes at each domain
+            points.forEach((p, i) => {
+                const domainColor = activeDomains[i].color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 6 * scale, 0, Math.PI * 2);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fill();
+                ctx.strokeStyle = domainColor;
+                ctx.lineWidth = 2.5 * scale;
+                ctx.stroke();
+            });
 
 
             // Labels positioned outside the outermost circle (horizontal text)
@@ -656,10 +672,10 @@
             const valid = scores1to10.filter(s => s !== null);
             const avg = valid.length > 0 ? (valid.reduce((a, b) => a + b, 0) / valid.length) : 0;
             const finalAvg = (Math.round(avg * 10) / 10).toFixed(1);
-            ctx.beginPath(); ctx.arc(centerX, centerY, 110, 0, Math.PI * 2); ctx.fillStyle = '#F2F0E6'; ctx.fill();
-            ctx.strokeStyle = '#D9A520'; ctx.lineWidth = 8 * scale; ctx.stroke();
-            ctx.fillStyle = '#1A4D56'; ctx.font = 'bold 75px DM Sans'; ctx.fillText(finalAvg, centerX, centerY + 15);
-            ctx.font = '28px JetBrains Mono'; ctx.globalAlpha = 0.5; ctx.fillText('SCORE', centerX, centerY + 60);
+            ctx.beginPath(); ctx.arc(centerX, centerY, 95, 0, Math.PI * 2); ctx.fillStyle = '#F2F0E6'; ctx.fill();
+            ctx.strokeStyle = '#D9A520'; ctx.lineWidth = 7 * scale; ctx.stroke();
+            ctx.fillStyle = '#1A4D56'; ctx.font = 'bold 65px DM Sans'; ctx.fillText(finalAvg, centerX, centerY + 13);
+            ctx.font = '24px JetBrains Mono'; ctx.globalAlpha = 0.5; ctx.fillText('SCORE', centerX, centerY + 52);
 
             // Cluster Summary Boxes
             const boxWidth = 380; const boxHeight = 120; const pad = 60;
