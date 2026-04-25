@@ -388,26 +388,30 @@
         ];
 
         const domains = [
+            // Foundation Cluster (d1-d4)
             { id: 'physical', label: 'Physical\nWell-Being', color: '#1A4D56', cluster: 'Foundation' },
             { id: 'financial', label: 'Financial\nWell-Being', color: '#225B66', cluster: 'Foundation' },
             { id: 'safety', label: 'Safety &\nSecurity', color: '#2A6977', cluster: 'Foundation' },
-            { id: 'home', label: 'Living\nEnvironment', color: '#327787', cluster: 'Foundation' },
+            { id: 'livingEnv', label: 'Living\nEnvironment', color: '#327787', cluster: 'Foundation' },
 
+            // Connection Cluster (d5-d9)
             { id: 'relations', label: 'Relations', color: '#3A8598', cluster: 'Connection' },
-            { id: 'intimacy', label: 'Sexuality &\nIntimacy', color: '#4293A8', cluster: 'Connection', optional: true, checkboxId: 'includeIntimacy' },
-            { id: 'parenting', label: 'Parenting &\nCaregiving', color: '#4AA1B9', cluster: 'Connection', optional: true, checkboxId: 'includeParenting' },
+            { id: 'cultural', label: 'Cultural\nIdentity', color: '#5EBFD9', cluster: 'Connection' },
             { id: 'community', label: 'Community\nContribution', color: '#52AFC9', cluster: 'Connection' },
-            { id: 'culture', label: 'Cultural\nIdentity', color: '#5EBFD9', cluster: 'Connection' },
+            { id: 'parenting', label: 'Parenting &\nCaregiving', color: '#4AA1B9', cluster: 'Connection', optional: true, checkboxId: 'includeParenting' },
+            { id: 'intimacy', label: 'Sexuality &\nIntimacy', color: '#4293A8', cluster: 'Connection', optional: true, checkboxId: 'includeIntimacy' },
 
+            // Internal Flow Cluster (d10-d13)
+            { id: 'mental', label: 'Mental\nWell-Being', color: '#9D7316', cluster: 'Internal Flow' },
+            { id: 'timeMgmt', label: 'Time\nManagement', color: '#916914', cluster: 'Internal Flow' },
+            { id: 'recreation', label: 'Recreation &\nLeisure', color: '#855F12', cluster: 'Internal Flow' },
+            { id: 'spirituality', label: 'Spirituality', color: '#795510', cluster: 'Internal Flow', optional: true, checkboxId: 'includeSpirituality' },
+
+            // Expansion Cluster (d14-d17)
             { id: 'career', label: 'Career &\nAchievement', color: '#CD9B1E', cluster: 'Expansion' },
             { id: 'growth', label: 'Personal\nGrowth', color: '#C1911C', cluster: 'Expansion' },
             { id: 'purpose', label: 'Meaning &\nPurpose', color: '#B5871A', cluster: 'Expansion' },
-            { id: 'creativity', label: 'Creativity &\nExpression', color: '#A97D18', cluster: 'Expansion' },
-
-            { id: 'mental', label: 'Mental\nWell-Being', color: '#9D7316', cluster: 'Internal Flow' },
-            { id: 'time', label: 'Time\nManagement', color: '#916914', cluster: 'Internal Flow' },
-            { id: 'recreation', label: 'Recreation &\nLeisure', color: '#855F12', cluster: 'Internal Flow' },
-            { id: 'spirituality', label: 'Spirituality', color: '#795510', cluster: 'Internal Flow', optional: true, checkboxId: 'includeSpirituality' }
+            { id: 'creativity', label: 'Creativity &\nExpression', color: '#A97D18', cluster: 'Expansion' }
         ];
 
         // Create inputs dynamically grouped by cluster — one column per cluster
