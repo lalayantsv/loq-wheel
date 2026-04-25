@@ -330,7 +330,7 @@
                 <div class="client-info">
                     <div class="info-group">
                         <label for="clientName">Client Name</label>
-                        <input type="text" id="clientName" placeholder="Enter full name">
+                        <input type="text" id="clientName">
                     </div>
                     <div class="info-group">
                         <label for="assessmentDate">Assessment Date</label>
@@ -487,22 +487,7 @@
             });
         });
 
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelectorAll('input').forEach(input => {
-                const saved = localStorage.getItem('loq3_' + input.id);
-                if (input.type === 'checkbox') {
-                    if (saved !== null) {
-                        input.checked = saved === 'true';
-                        input.dispatchEvent(new Event('change'));
-                    }
-                    input.addEventListener('change', (e) => localStorage.setItem('loq3_' + e.target.id, e.target.checked));
-                } else {
-                    if (saved !== null) input.value = saved;
-                    input.addEventListener('input', (e) => localStorage.setItem('loq3_' + e.target.id, e.target.value));
-                }
-            });
-            if (!document.getElementById('assessmentDate').value) document.getElementById('assessmentDate').valueAsDate = new Date();
-        });
+        // Local storage auto-fill removed so page opens completely blank
 
         // Helper function to lighten a color
         function lightenColor(hex, amount) {
@@ -643,7 +628,7 @@
 
             // Draw polygon outline
             ctx.strokeStyle = '#1A4D56';
-            ctx.lineWidth = 3.5 * scale;
+            ctx.lineWidth = 2 * scale;
             ctx.beginPath();
             ctx.moveTo(points[0].x, points[0].y);
             points.forEach((p, i) => {
@@ -668,11 +653,11 @@
             points.forEach((p, i) => {
                 const domainColor = activeDomains[i].color;
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, 6 * scale, 0, Math.PI * 2);
+                ctx.arc(p.x, p.y, 4.5 * scale, 0, Math.PI * 2);
                 ctx.fillStyle = '#FFFFFF';
                 ctx.fill();
                 ctx.strokeStyle = domainColor;
-                ctx.lineWidth = 2.5 * scale;
+                ctx.lineWidth = 2 * scale;
                 ctx.stroke();
             });
 
@@ -767,7 +752,6 @@
                 if (input) {
                     const randomValue = (Math.random() * 9 + 1).toFixed(1); // Random between 1.0 and 10.0
                     input.value = randomValue;
-                    localStorage.setItem('loq3_' + d.id, randomValue);
                 }
             });
 
@@ -779,15 +763,11 @@
                     const randomBool = Math.random() > 0.5;
                     checkbox.checked = randomBool;
                     checkbox.dispatchEvent(new Event('change'));
-                    localStorage.setItem('loq3_' + checkboxId, randomBool);
                 }
             });
 
             // Set client name and date
-            document.getElementById('clientName').value = 'Demo Assessment';
             document.getElementById('assessmentDate').valueAsDate = new Date();
-            localStorage.setItem('loq3_clientName', 'Demo Assessment');
-            localStorage.setItem('loq3_assessmentDate', document.getElementById('assessmentDate').value);
 
             // Auto-generate wheel after brief delay
             setTimeout(() => {
@@ -803,9 +783,7 @@
                 } else {
                     i.value = '';
                 }
-                localStorage.removeItem('loq3_' + i.id);
             });
-            document.getElementById('assessmentDate').valueAsDate = new Date();
             document.getElementById('downloadBtn').classList.remove('active');
         }
 
