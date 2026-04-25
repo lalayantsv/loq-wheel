@@ -594,7 +594,7 @@
             });
             ctx.closePath();
             ctx.fillStyle = 'rgba(26, 77, 86, 0.12)'; ctx.fill();
-            ctx.strokeStyle = '#0F3D47'; ctx.lineWidth = 5 * scale; ctx.stroke();
+            ctx.strokeStyle = '#0F3D47'; ctx.lineWidth = 2.5 * scale; ctx.stroke();
 
             // Draw colored dots at each domain score (after the polygon so they're on top)
             ctx.globalAlpha = 1.0;
@@ -612,18 +612,18 @@
 
                 // Draw colored circle
                 ctx.beginPath();
-                ctx.arc(x, y, 15 * scale, 0, Math.PI * 2);
+                ctx.arc(x, y, 7.5 * scale, 0, Math.PI * 2);
                 ctx.fillStyle = clusterColor;
                 ctx.fill();
 
                 // Draw white stroke
                 ctx.strokeStyle = '#FFFFFF';
-                ctx.lineWidth = 3 * scale;
+                ctx.lineWidth = 1.5 * scale;
                 ctx.stroke();
 
                 // Optional: draw a small white center dot
                 ctx.beginPath();
-                ctx.arc(x, y, 5 * scale, 0, Math.PI * 2);
+                ctx.arc(x, y, 2.5 * scale, 0, Math.PI * 2);
                 ctx.fillStyle = '#FFFFFF';
                 ctx.fill();
             });
