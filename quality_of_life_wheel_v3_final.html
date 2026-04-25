@@ -317,6 +317,7 @@
                 <div class="button-group">
                     <button class="btn-generate" id="generateBtn" onclick="generateWheel()">Generate Wheel</button>
                     <button class="download-btn" id="downloadBtn" onclick="downloadWheel()">Download Image</button>
+                    <button class="btn-clear" onclick="fillDemoValues()">Demo</button>
                     <button class="btn-clear" onclick="clearInputs()">Clear</button>
                 </div>
             </div>
@@ -476,6 +477,15 @@
             if (!document.getElementById('assessmentDate').value) document.getElementById('assessmentDate').valueAsDate = new Date();
         });
 
+        // Helper function to lighten a color
+        function lightenColor(hex, amount) {
+            const rgb = parseInt(hex.slice(1), 16);
+            const r = Math.min(255, (rgb >> 16) + Math.round(255 * amount));
+            const g = Math.min(255, ((rgb >> 8) & 0xFF) + Math.round(255 * amount));
+            const b = Math.min(255, (rgb & 0xFF) + Math.round(255 * amount));
+            return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+        }
+
         function generateWheel() {
             const canvas = document.getElementById('wheelCanvas');
             const ctx = canvas.getContext('2d');
@@ -517,7 +527,7 @@
                 return Math.round(Math.max(1, Math.min(10, raw)) * 10) / 10;
             });
 
-            const percentages = scores1to10.map(s => (s === null) ? 0 : ((s - 1) / 9) * 100);
+            const percentages = scores1to10.map(s => (s === null) ? 0 : (s / 10) * 100);
             if (scores1to10.every(s => s === null)) { alert('Please enter scores'); return; }
 
             // Draw background with grid pattern
@@ -541,17 +551,60 @@
             let subText = (clientName && dateVal) ? `${clientName} | ${dateVal}` : (clientName || dateVal || 'LOQ 3.0 · SCIENTIFIC ASSESSMENT');
             ctx.fillStyle = '#D9A520'; ctx.font = '500 40px "Inter"'; ctx.fillText(subText, centerX, 225);
 
-            // Draw rings
-            ctx.strokeStyle = 'rgba(26,77,86,0.13)'; ctx.lineWidth = 1.2 * scale;
-            for (let i = 1; i <= 4; i++) {
-                ctx.beginPath(); ctx.arc(centerX, centerY, (maxRadius / 4) * i, 0, Math.PI * 2); ctx.stroke();
+            // Draw rings for scores 1-10 (dotted and transparent)
+            ctx.strokeStyle = 'rgba(26,77,86,0.08)'; ctx.lineWidth = 1.2 * scale;
+            ctx.setLineDash([6, 4]);
+            for (let i = 1; i <= 10; i++) {
+                ctx.beginPath(); ctx.arc(centerX, centerY, (maxRadius / 10) * i, 0, Math.PI * 2); ctx.stroke();
             }
+            ctx.setLineDash([]);
 
-            // --- DRAW RADIAL DOTTED LINES FROM CENTER TO EDGE ---
-            ctx.strokeStyle = 'rgba(26,77,86,0.12)'; ctx.lineWidth = 1.5 * scale;
-            ctx.setLineDash([8, 6]);
+            // --- DRAW PIZZA SLICES FOR EACH DOMAIN ---
+            ctx.globalAlpha = 0.45;
+            const domainAngle = Math.PI * 2 / activeDomains.length;
+
             activeDomains.forEach((d, i) => {
-                const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2;
+                const startAngle = (domainAngle * i) - Math.PI / 2;
+                const endAngle = startAngle + domainAngle;
+                const radius = maxRadius * (percentages[i] / 100);
+
+                // Determine base cluster color
+                let baseColor = '#0F3D47'; // Foundation
+                if (d.cluster === 'Connection') baseColor = '#2B7BA0';
+                else if (d.cluster === 'Expansion') baseColor = '#E6B800';
+                else if (d.cluster === 'Internal Flow') baseColor = '#8B5A00';
+
+                // Get position within cluster for shade variation
+                const clusterDomains = activeDomains.filter(domain => domain.cluster === d.cluster);
+                const positionInCluster = clusterDomains.indexOf(d);
+                const shadeProgression = positionInCluster / Math.max(1, clusterDomains.length - 1);
+
+                // Create shade of cluster color by lightening progressively
+                const clusterColor = lightenColor(baseColor, shadeProgression * 0.4);
+
+                // Draw filled slice
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                ctx.lineTo(centerX, centerY);
+                ctx.closePath();
+                ctx.fillStyle = clusterColor;
+                ctx.fill();
+
+                // Draw border of slice
+                ctx.strokeStyle = 'rgba(26,77,86,0.3)';
+                ctx.lineWidth = 1.5 * scale;
+                ctx.stroke();
+            });
+
+            ctx.globalAlpha = 1.0;
+
+            // Draw radial lines separating slices (dotted and transparent)
+            ctx.strokeStyle = 'rgba(26,77,86,0.12)';
+            ctx.lineWidth = 1.5 * scale;
+            ctx.setLineDash([6, 4]);
+            activeDomains.forEach((d, i) => {
+                const angle = (domainAngle * i) - Math.PI / 2;
                 const x = centerX + Math.cos(angle) * maxRadius;
                 const y = centerY + Math.sin(angle) * maxRadius;
                 ctx.beginPath();
@@ -561,64 +614,8 @@
             });
             ctx.setLineDash([]);
 
-            // --- DRAW CLUSTER BACKGROUND SHADING (Sharp colors) ---
-            let currentAngle = -Math.PI / 2;
-            clusters.forEach(c => {
-                const clusterDomains = activeDomains.filter(d => d.cluster === c.name);
-                if (clusterDomains.length === 0) return;
-                const clusterAngle = (Math.PI * 2 / activeDomains.length) * clusterDomains.length;
 
-                ctx.save();
-                ctx.beginPath();
-                ctx.moveTo(centerX, centerY);
-                ctx.arc(centerX, centerY, maxRadius, currentAngle, currentAngle + clusterAngle);
-                ctx.closePath();
-
-                // Use sharp solid cluster colors with more distinct opacity
-                ctx.globalAlpha = 0.15;
-                ctx.fillStyle = c.color;
-                ctx.fill();
-                ctx.restore();
-
-                currentAngle += clusterAngle;
-            });
-
-            // Draw data polygon with sharp colors
-            ctx.beginPath();
-            activeDomains.forEach((d, i) => {
-                const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2;
-                const radius = maxRadius * (percentages[i] / 100);
-                const x = centerX + Math.cos(angle) * radius;
-                const y = centerY + Math.sin(angle) * radius;
-                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-            });
-            ctx.closePath();
-            ctx.fillStyle = 'rgba(26, 77, 86, 0.12)'; ctx.fill();
-            ctx.strokeStyle = '#0F3D47'; ctx.lineWidth = 2.5 * scale; ctx.stroke();
-
-            // Draw elegant thin circle outlines at each domain score
-            ctx.globalAlpha = 1.0;
-            activeDomains.forEach((d, i) => {
-                const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2;
-                const radius = maxRadius * (percentages[i] / 100);
-                const x = centerX + Math.cos(angle) * radius;
-                const y = centerY + Math.sin(angle) * radius;
-
-                // Determine cluster color for the circle outline
-                let clusterColor = '#0F3D47'; // Foundation
-                if (d.cluster === 'Connection') clusterColor = '#2B7BA0';
-                else if (d.cluster === 'Expansion') clusterColor = '#E6B800';
-                else if (d.cluster === 'Internal Flow') clusterColor = '#8B5A00';
-
-                // Draw elegant thin circle outline
-                ctx.beginPath();
-                ctx.arc(x, y, 6 * scale, 0, Math.PI * 2);
-                ctx.strokeStyle = clusterColor;
-                ctx.lineWidth = 0.4 * scale;
-                ctx.stroke();
-            });
-
-            // Labels
+            // Labels positioned outside the outermost circle (horizontal text)
             activeDomains.forEach((d, i) => {
                 const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2;
                 const x = centerX + Math.cos(angle) * (maxRadius + 140);
@@ -663,6 +660,41 @@
             });
 
             document.getElementById('downloadBtn').classList.add('active');
+        }
+
+        function fillDemoValues() {
+            // Fill in random values between 1 and 10 for all domain inputs
+            domains.forEach(d => {
+                const input = document.getElementById(d.id);
+                if (input) {
+                    const randomValue = (Math.random() * 9 + 1).toFixed(1); // Random between 1.0 and 10.0
+                    input.value = randomValue;
+                    localStorage.setItem('loq3_' + d.id, randomValue);
+                }
+            });
+
+            // Randomly toggle the three optional checkboxes
+            const optionalCheckboxes = ['includeParenting', 'includeIntimacy', 'includeSpirituality'];
+            optionalCheckboxes.forEach(checkboxId => {
+                const checkbox = document.getElementById(checkboxId);
+                if (checkbox) {
+                    const randomBool = Math.random() > 0.5;
+                    checkbox.checked = randomBool;
+                    checkbox.dispatchEvent(new Event('change'));
+                    localStorage.setItem('loq3_' + checkboxId, randomBool);
+                }
+            });
+
+            // Set client name and date
+            document.getElementById('clientName').value = 'Demo Assessment';
+            document.getElementById('assessmentDate').valueAsDate = new Date();
+            localStorage.setItem('loq3_clientName', 'Demo Assessment');
+            localStorage.setItem('loq3_assessmentDate', document.getElementById('assessmentDate').value);
+
+            // Auto-generate wheel after brief delay
+            setTimeout(() => {
+                generateWheel();
+            }, 300);
         }
 
         function clearInputs() {
