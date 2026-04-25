@@ -22,6 +22,10 @@
             --bg: #E0DDCF;
             --border: rgba(26, 77, 86, 0.15);
             --shadow: rgba(26, 77, 86, 0.08);
+            --foundation-primary: #1A4D56;
+            --connection-primary: #B8755E;
+            --internal-flow-primary: #6B8E5F;
+            --expansion-primary: #D9A520;
         }
 
         body {
@@ -382,37 +386,37 @@
         // Call this when page loads
         window.addEventListener('load', loadScoresFromURL);
         const clusters = [
-            { name: 'Foundation', color: '#0F3D47' },
-            { name: 'Connection', color: '#2B7BA0' },
-            { name: 'Expansion', color: '#E6B800' },
-            { name: 'Internal Flow', color: '#8B5A00' }
+            { name: 'Foundation', color: '#1A4D56' },
+            { name: 'Connection', color: '#B8755E' },
+            { name: 'Internal Flow', color: '#6B8E5F' },
+            { name: 'Expansion', color: '#D9A520' }
         ];
 
         const domains = [
-            // Foundation Cluster (d1-d4)
+            // Foundation Cluster (d1-d4) - Deep Teal-Gray
             { id: 'physical', label: 'Physical\nWell-Being', color: '#1A4D56', cluster: 'Foundation' },
-            { id: 'financial', label: 'Financial\nWell-Being', color: '#225B66', cluster: 'Foundation' },
-            { id: 'safety', label: 'Safety &\nSecurity', color: '#2A6977', cluster: 'Foundation' },
-            { id: 'livingEnv', label: 'Living\nEnvironment', color: '#327787', cluster: 'Foundation' },
+            { id: 'financial', label: 'Financial\nWell-Being', color: '#2A5F69', cluster: 'Foundation' },
+            { id: 'safety', label: 'Safety &\nSecurity', color: '#3A7179', cluster: 'Foundation' },
+            { id: 'livingEnv', label: 'Living\nEnvironment', color: '#4A8389', cluster: 'Foundation' },
 
-            // Connection Cluster (d5-d9)
-            { id: 'relations', label: 'Relations', color: '#3A8598', cluster: 'Connection' },
-            { id: 'cultural', label: 'Cultural\nIdentity', color: '#5EBFD9', cluster: 'Connection' },
-            { id: 'community', label: 'Community\nContribution', color: '#52AFC9', cluster: 'Connection' },
-            { id: 'parenting', label: 'Parenting &\nCaregiving', color: '#4AA1B9', cluster: 'Connection', optional: true, checkboxId: 'includeParenting' },
-            { id: 'intimacy', label: 'Sexuality &\nIntimacy', color: '#4293A8', cluster: 'Connection', optional: true, checkboxId: 'includeIntimacy' },
+            // Connection Cluster (d5-d9) - Muted Coral-Rust
+            { id: 'relations', label: 'Relations', color: '#B8755E', cluster: 'Connection' },
+            { id: 'cultural', label: 'Cultural\nIdentity', color: '#C68870', cluster: 'Connection' },
+            { id: 'community', label: 'Community\nContribution', color: '#D49B82', cluster: 'Connection' },
+            { id: 'parenting', label: 'Parenting &\nCaregiving', color: '#E2AE94', cluster: 'Connection', optional: true, checkboxId: 'includeParenting' },
+            { id: 'intimacy', label: 'Sexuality &\nIntimacy', color: '#F0C1A6', cluster: 'Connection', optional: true, checkboxId: 'includeIntimacy' },
 
-            // Internal Flow Cluster (d10-d13)
-            { id: 'mental', label: 'Mental\nWell-Being', color: '#9D7316', cluster: 'Internal Flow' },
-            { id: 'timeMgmt', label: 'Time\nManagement', color: '#916914', cluster: 'Internal Flow' },
-            { id: 'recreation', label: 'Recreation &\nLeisure', color: '#855F12', cluster: 'Internal Flow' },
-            { id: 'spirituality', label: 'Spirituality', color: '#795510', cluster: 'Internal Flow', optional: true, checkboxId: 'includeSpirituality' },
+            // Internal Flow Cluster (d10-d13) - Sage-Olive Green
+            { id: 'mental', label: 'Mental\nWell-Being', color: '#6B8E5F', cluster: 'Internal Flow' },
+            { id: 'timeMgmt', label: 'Time\nManagement', color: '#7FA073', cluster: 'Internal Flow' },
+            { id: 'recreation', label: 'Recreation &\nLeisure', color: '#93B287', cluster: 'Internal Flow' },
+            { id: 'spirituality', label: 'Spirituality', color: '#A7C49B', cluster: 'Internal Flow', optional: true, checkboxId: 'includeSpirituality' },
 
-            // Expansion Cluster (d14-d17)
-            { id: 'career', label: 'Career &\nAchievement', color: '#CD9B1E', cluster: 'Expansion' },
-            { id: 'growth', label: 'Personal\nGrowth', color: '#C1911C', cluster: 'Expansion' },
-            { id: 'purpose', label: 'Meaning &\nPurpose', color: '#B5871A', cluster: 'Expansion' },
-            { id: 'creativity', label: 'Creativity &\nExpression', color: '#A97D18', cluster: 'Expansion' }
+            // Expansion Cluster (d14-d17) - Earthy Mustard-Gold
+            { id: 'career', label: 'Career &\nAchievement', color: '#D9A520', cluster: 'Expansion' },
+            { id: 'growth', label: 'Personal\nGrowth', color: '#E3B340', cluster: 'Expansion' },
+            { id: 'purpose', label: 'Meaning &\nPurpose', color: '#EDC160', cluster: 'Expansion' },
+            { id: 'creativity', label: 'Creativity &\nExpression', color: '#F7CF80', cluster: 'Expansion' }
         ];
 
         // Create inputs dynamically grouped by cluster — one column per cluster
@@ -568,19 +572,8 @@
                 const endAngle = startAngle + domainAngle;
                 const radius = maxRadius * (percentages[i] / 100);
 
-                // Determine base cluster color
-                let baseColor = '#0F3D47'; // Foundation
-                if (d.cluster === 'Connection') baseColor = '#2B7BA0';
-                else if (d.cluster === 'Expansion') baseColor = '#E6B800';
-                else if (d.cluster === 'Internal Flow') baseColor = '#8B5A00';
-
-                // Get position within cluster for shade variation
-                const clusterDomains = activeDomains.filter(domain => domain.cluster === d.cluster);
-                const positionInCluster = clusterDomains.indexOf(d);
-                const shadeProgression = positionInCluster / Math.max(1, clusterDomains.length - 1);
-
-                // Create shade of cluster color by lightening progressively
-                const clusterColor = lightenColor(baseColor, shadeProgression * 0.4);
+                // Use the domain's specific color directly
+                const domainColor = d.color;
 
                 // Draw filled slice
                 ctx.beginPath();
@@ -588,7 +581,7 @@
                 ctx.arc(centerX, centerY, radius, startAngle, endAngle);
                 ctx.lineTo(centerX, centerY);
                 ctx.closePath();
-                ctx.fillStyle = clusterColor;
+                ctx.fillStyle = domainColor;
                 ctx.fill();
 
                 // Draw border of slice
@@ -616,8 +609,9 @@
 
 
             // Labels positioned outside the outermost circle (horizontal text)
+            const labelRotationOffset = Math.PI / activeDomains.length; // Rotate by one domain unit
             activeDomains.forEach((d, i) => {
-                const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2;
+                const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2 + labelRotationOffset;
                 const x = centerX + Math.cos(angle) * (maxRadius + 140);
                 const y = centerY + Math.sin(angle) * (maxRadius + 140);
                 ctx.fillStyle = '#1F1A14'; ctx.font = '600 32px DM Sans'; ctx.globalAlpha = 0.7;
@@ -641,12 +635,12 @@
             const boxPos = [
                 { x: canvas.width - boxWidth - pad, y: headerHeight + pad },         // 0: Foundation -> UR
                 { x: canvas.width - boxWidth - pad, y: canvas.height - boxHeight - pad - 100 }, // 1: Connection -> LR
-                { x: pad, y: canvas.height - boxHeight - pad - 100 },                // 2: Expansion -> LL (swapped to UL actually, see note below)
-                { x: pad, y: headerHeight + pad }                                   // 3: Internal Flow -> UL (swapped to LL actually)
+                { x: pad, y: canvas.height - boxHeight - pad - 100 },                // 2: Internal Flow -> LL (swapped to UL actually, see note below)
+                { x: pad, y: headerHeight + pad }                                   // 3: Expansion -> UL (swapped to LL actually)
             ];
-            // Correcting for user's request: Expansion top-left, Internal Flow bottom-left
-            boxPos[2] = { x: pad, y: headerHeight + pad };                           // Expansion -> UL
-            boxPos[3] = { x: pad, y: canvas.height - boxHeight - pad - 100 };       // Internal Flow -> LL
+            // Correcting for user's request: Internal Flow bottom-left, Expansion top-left
+            boxPos[2] = { x: pad, y: canvas.height - boxHeight - pad - 100 };       // Internal Flow -> LL
+            boxPos[3] = { x: pad, y: headerHeight + pad };                           // Expansion -> UL
 
             clusters.forEach((c, i) => {
                 const pos = boxPos[i]; const score = clusterScores[i];
