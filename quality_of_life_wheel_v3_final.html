@@ -536,9 +536,9 @@
                 ctx.beginPath(); ctx.arc(centerX, centerY, (maxRadius / 4) * i, 0, Math.PI * 2); ctx.stroke();
             }
 
-            // --- DRAW DOTTED LINES SEPARATING DOMAINS ---
-            ctx.strokeStyle = 'rgba(26,77,86,0.2)'; ctx.lineWidth = 1 * scale;
-            ctx.setLineDash([5, 5]);
+            // --- DRAW RADIAL DOTTED LINES FROM CENTER TO EDGE ---
+            ctx.strokeStyle = 'rgba(26,77,86,0.25)'; ctx.lineWidth = 1.5 * scale;
+            ctx.setLineDash([8, 6]);
             activeDomains.forEach((d, i) => {
                 const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2;
                 const x = centerX + Math.cos(angle) * maxRadius;
@@ -550,7 +550,7 @@
             });
             ctx.setLineDash([]);
 
-            // --- DRAW CLUSTER BACKGROUND SHADING ---
+            // --- DRAW CLUSTER BACKGROUND SHADING (Sharp colors) ---
             let currentAngle = -Math.PI / 2;
             clusters.forEach(c => {
                 const clusterDomains = activeDomains.filter(d => d.cluster === c.name);
@@ -563,20 +563,16 @@
                 ctx.arc(centerX, centerY, maxRadius, currentAngle, currentAngle + clusterAngle);
                 ctx.closePath();
 
-                // Create a very subtle radial gradient for the background
-                const grad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, maxRadius);
-                grad.addColorStop(0, 'transparent');
-                grad.addColorStop(1, c.color);
-
-                ctx.globalAlpha = 0.06; // Very transparent
-                ctx.fillStyle = grad;
+                // Use sharp solid cluster colors instead of gradients
+                ctx.globalAlpha = 0.08;
+                ctx.fillStyle = c.color;
                 ctx.fill();
                 ctx.restore();
 
                 currentAngle += clusterAngle;
             });
 
-            // Draw data
+            // Draw data polygon with sharp colors
             ctx.beginPath();
             activeDomains.forEach((d, i) => {
                 const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2;
@@ -586,8 +582,30 @@
                 if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
             });
             ctx.closePath();
-            ctx.fillStyle = 'rgba(26, 77, 86, 0.08)'; ctx.fill();
-            ctx.strokeStyle = '#1A4D56'; ctx.lineWidth = 4 * scale; ctx.stroke();
+            ctx.fillStyle = 'rgba(26, 77, 86, 0.12)'; ctx.fill();
+            ctx.strokeStyle = '#0F3D47'; ctx.lineWidth = 5 * scale; ctx.stroke();
+
+            // Draw colored dots at each domain score
+            activeDomains.forEach((d, i) => {
+                const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2;
+                const radius = maxRadius * (percentages[i] / 100);
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+
+                // Determine cluster color for the dot
+                let clusterColor = '#0F3D47'; // Default Foundation
+                if (d.cluster === 'Connection') clusterColor = '#2B7BA0';
+                else if (d.cluster === 'Expansion') clusterColor = '#E6B800';
+                else if (d.cluster === 'Internal Flow') clusterColor = '#8B5A00';
+
+                ctx.beginPath();
+                ctx.arc(x, y, 12 * scale, 0, Math.PI * 2);
+                ctx.fillStyle = clusterColor;
+                ctx.fill();
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = 2 * scale;
+                ctx.stroke();
+            });
 
             // Labels
             activeDomains.forEach((d, i) => {
@@ -615,8 +633,8 @@
             const boxPos = [
                 { x: canvas.width - boxWidth - pad, y: headerHeight + pad },         // 0: Foundation -> UR
                 { x: canvas.width - boxWidth - pad, y: canvas.height - boxHeight - pad - 100 }, // 1: Connection -> LR
-                { x: pad, y: canvas.height - boxHeight - pad - 100 },                // 2: Expansion -> LL
-                { x: pad, y: headerHeight + pad }                                   // 3: Internal Flow -> UL
+                { x: pad, y: headerHeight + pad },                                   // 2: Expansion -> UL
+                { x: pad, y: canvas.height - boxHeight - pad - 100 }                // 3: Internal Flow -> LL
             ];
 
             clusters.forEach((c, i) => {
