@@ -520,7 +520,18 @@
             const percentages = scores1to10.map(s => (s === null) ? 0 : ((s - 1) / 9) * 100);
             if (scores1to10.every(s => s === null)) { alert('Please enter scores'); return; }
 
+            // Draw background with grid pattern
             ctx.fillStyle = '#F2F0E6'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Add grid pattern to background
+            ctx.strokeStyle = 'rgba(26,77,86,0.04)'; ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += 20) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += 20) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+            }
+
             ctx.fillStyle = '#1A4D56'; ctx.fillRect(0, 0, canvas.width, headerHeight);
             ctx.textAlign = 'center'; ctx.fillStyle = '#FFFFFF'; ctx.font = '600 85px "DM Sans"';
             ctx.fillText('Life Orientation Wheel 3.0', centerX, 140);
@@ -537,7 +548,7 @@
             }
 
             // --- DRAW RADIAL DOTTED LINES FROM CENTER TO EDGE ---
-            ctx.strokeStyle = 'rgba(26,77,86,0.25)'; ctx.lineWidth = 1.5 * scale;
+            ctx.strokeStyle = 'rgba(26,77,86,0.12)'; ctx.lineWidth = 1.5 * scale;
             ctx.setLineDash([8, 6]);
             activeDomains.forEach((d, i) => {
                 const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2;
@@ -563,8 +574,8 @@
                 ctx.arc(centerX, centerY, maxRadius, currentAngle, currentAngle + clusterAngle);
                 ctx.closePath();
 
-                // Use sharp solid cluster colors instead of gradients
-                ctx.globalAlpha = 0.08;
+                // Use sharp solid cluster colors with more distinct opacity
+                ctx.globalAlpha = 0.15;
                 ctx.fillStyle = c.color;
                 ctx.fill();
                 ctx.restore();
@@ -585,7 +596,8 @@
             ctx.fillStyle = 'rgba(26, 77, 86, 0.12)'; ctx.fill();
             ctx.strokeStyle = '#0F3D47'; ctx.lineWidth = 5 * scale; ctx.stroke();
 
-            // Draw colored dots at each domain score
+            // Draw colored dots at each domain score (after the polygon so they're on top)
+            ctx.globalAlpha = 1.0;
             activeDomains.forEach((d, i) => {
                 const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2;
                 const radius = maxRadius * (percentages[i] / 100);
@@ -593,18 +605,27 @@
                 const y = centerY + Math.sin(angle) * radius;
 
                 // Determine cluster color for the dot
-                let clusterColor = '#0F3D47'; // Default Foundation
+                let clusterColor = '#0F3D47'; // Foundation
                 if (d.cluster === 'Connection') clusterColor = '#2B7BA0';
                 else if (d.cluster === 'Expansion') clusterColor = '#E6B800';
                 else if (d.cluster === 'Internal Flow') clusterColor = '#8B5A00';
 
+                // Draw colored circle
                 ctx.beginPath();
-                ctx.arc(x, y, 12 * scale, 0, Math.PI * 2);
+                ctx.arc(x, y, 15 * scale, 0, Math.PI * 2);
                 ctx.fillStyle = clusterColor;
                 ctx.fill();
+
+                // Draw white stroke
                 ctx.strokeStyle = '#FFFFFF';
-                ctx.lineWidth = 2 * scale;
+                ctx.lineWidth = 3 * scale;
                 ctx.stroke();
+
+                // Optional: draw a small white center dot
+                ctx.beginPath();
+                ctx.arc(x, y, 5 * scale, 0, Math.PI * 2);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fill();
             });
 
             // Labels
@@ -633,9 +654,12 @@
             const boxPos = [
                 { x: canvas.width - boxWidth - pad, y: headerHeight + pad },         // 0: Foundation -> UR
                 { x: canvas.width - boxWidth - pad, y: canvas.height - boxHeight - pad - 100 }, // 1: Connection -> LR
-                { x: pad, y: headerHeight + pad },                                   // 2: Expansion -> UL
-                { x: pad, y: canvas.height - boxHeight - pad - 100 }                // 3: Internal Flow -> LL
+                { x: pad, y: canvas.height - boxHeight - pad - 100 },                // 2: Expansion -> LL (swapped to UL actually, see note below)
+                { x: pad, y: headerHeight + pad }                                   // 3: Internal Flow -> UL (swapped to LL actually)
             ];
+            // Correcting for user's request: Expansion top-left, Internal Flow bottom-left
+            boxPos[2] = { x: pad, y: headerHeight + pad };                           // Expansion -> UL
+            boxPos[3] = { x: pad, y: canvas.height - boxHeight - pad - 100 };       // Internal Flow -> LL
 
             clusters.forEach((c, i) => {
                 const pos = boxPos[i]; const score = clusterScores[i];
