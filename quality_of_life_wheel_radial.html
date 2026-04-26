@@ -797,7 +797,15 @@
         function downloadWheel() {
             const c = document.getElementById('wheelCanvas');
             const l = document.createElement('a');
-            l.download = `LOQ3_${document.getElementById('clientName').value || 'Assessment'}.png`;
+            const name = document.getElementById('clientName').value || 'Assessment';
+            const rawDate = document.getElementById('assessmentDate').value;
+            let dateStr = '';
+            if (rawDate) {
+                const d = new Date(rawDate + 'T00:00:00'); // T00:00:00 prevents timezone shift
+                const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                dateStr = '_' + String(d.getDate()).padStart(2, '0') + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+            }
+            l.download = `LOQ3_${name}${dateStr}.png`;
             l.href = c.toDataURL(); l.click();
         }
     </script>
