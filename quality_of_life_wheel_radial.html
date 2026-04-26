@@ -364,6 +364,13 @@
         function loadScoresFromURL() {
             const params = new URLSearchParams(window.location.search);
 
+            // Auto-fill client name and date if provided
+            const nameParam = params.get('name');
+            if (nameParam) document.getElementById('clientName').value = decodeURIComponent(nameParam);
+
+            const dateParam = params.get('date');
+            if (dateParam) document.getElementById('assessmentDate').value = dateParam;
+
             // Domain order: 1.Physical, 2.Financial, 3.Safety, 4.Living, 5.Relations, 6.Cultural, 7.Community, 8.Parenting, 9.Intimacy, 10.Mental, 11.Time, 12.Recreation, 13.Spirituality, 14.Career, 15.Growth, 16.Purpose, 17.Creativity
             const domainIds = [
                 'physical', 'financial', 'safety', 'livingEnv', 'relations', 'cultural', 'community',
