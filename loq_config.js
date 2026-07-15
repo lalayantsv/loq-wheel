@@ -15,7 +15,7 @@ const LOQ_CONFIG = {
  "clusters": [
   {
    "name": "Foundation",
-   "color": "#1A4D56"
+   "color": "#324D47"
   },
   {
    "name": "Connection",
@@ -27,7 +27,7 @@ const LOQ_CONFIG = {
   },
   {
    "name": "Expansion",
-   "color": "#D9A520"
+   "color": "#C19A47"
   }
  ],
  "domains": [
@@ -36,7 +36,7 @@ const LOQ_CONFIG = {
    "name": "Physical Well-Being",
    "label": "Physical\nWell-Being",
    "cluster": "Foundation",
-   "color": "#1A4D56",
+   "color": "#324D47",
    "gate": null
   },
   {
@@ -44,7 +44,7 @@ const LOQ_CONFIG = {
    "name": "Financial Well-Being",
    "label": "Financial\nWell-Being",
    "cluster": "Foundation",
-   "color": "#2A5F69",
+   "color": "#42625B",
    "gate": null
   },
   {
@@ -52,7 +52,7 @@ const LOQ_CONFIG = {
    "name": "Safety & Security",
    "label": "Safety &\nSecurity",
    "cluster": "Foundation",
-   "color": "#3A7179",
+   "color": "#52776F",
    "gate": null
   },
   {
@@ -60,7 +60,7 @@ const LOQ_CONFIG = {
    "name": "Living Environment",
    "label": "Living\nEnvironment",
    "cluster": "Foundation",
-   "color": "#4A8389",
+   "color": "#628C83",
    "gate": null
   },
   {
@@ -148,7 +148,7 @@ const LOQ_CONFIG = {
    "name": "Career & Achievement",
    "label": "Career &\nAchievement",
    "cluster": "Expansion",
-   "color": "#D9A520",
+   "color": "#C19A47",
    "gate": null
   },
   {
@@ -156,7 +156,7 @@ const LOQ_CONFIG = {
    "name": "Personal Growth",
    "label": "Personal\nGrowth",
    "cluster": "Expansion",
-   "color": "#E3B340",
+   "color": "#CDA95C",
    "gate": null
   },
   {
@@ -164,7 +164,7 @@ const LOQ_CONFIG = {
    "name": "Meaning & Purpose",
    "label": "Meaning &\nPurpose",
    "cluster": "Expansion",
-   "color": "#EDC160",
+   "color": "#D9B871",
    "gate": null
   },
   {
@@ -172,7 +172,7 @@ const LOQ_CONFIG = {
    "name": "Creativity & Expression",
    "label": "Creativity &\nExpression",
    "cluster": "Expansion",
-   "color": "#F7CF80",
+   "color": "#E5C786",
    "gate": null
   }
  ],
