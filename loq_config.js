@@ -2,6 +2,15 @@
 const LOQ_CONFIG = {
  "version": "3.1",
  "generated": "2026-07-16",
+ "title": {
+  "en": "Life Map",
+  "hy": "Կյանքի Քարտեզ"
+ },
+ "subtitle": {
+  "en": "Scientific Assessment · Inner Cycle Lab",
+  "hy": "Գիտական գնահատում · Inner Cycle Lab"
+ },
+ "wheel_default_lang": "hy",
  "scale": {
   "min": 1,
   "max": 6
@@ -16,18 +25,22 @@ const LOQ_CONFIG = {
  "clusters": [
   {
    "name": "Foundation",
+   "name_hy": "Հիմք",
    "color": "#324D47"
   },
   {
    "name": "Connection",
+   "name_hy": "Կապ",
    "color": "#B8755E"
   },
   {
    "name": "Internal Flow",
+   "name_hy": "Ներքին հոսք",
    "color": "#6B8E5F"
   },
   {
    "name": "Expansion",
+   "name_hy": "Ընդլայնում",
    "color": "#C19A47"
   }
  ],
@@ -36,6 +49,7 @@ const LOQ_CONFIG = {
    "code": "PWB",
    "name": "Physical Well-Being",
    "label": "Physical\nWell-Being",
+   "label_hy": "Ֆիզիկական\nբարեկեցություն",
    "cluster": "Foundation",
    "color": "#324D47",
    "gate": null
@@ -44,6 +58,7 @@ const LOQ_CONFIG = {
    "code": "FWB",
    "name": "Financial Well-Being",
    "label": "Financial\nWell-Being",
+   "label_hy": "Ֆինանսական\nբարեկեցություն",
    "cluster": "Foundation",
    "color": "#42625B",
    "gate": null
@@ -52,6 +67,7 @@ const LOQ_CONFIG = {
    "code": "SEC",
    "name": "Safety & Security",
    "label": "Safety &\nSecurity",
+   "label_hy": "Անվտանգություն և\nապահովություն",
    "cluster": "Foundation",
    "color": "#52776F",
    "gate": null
@@ -60,6 +76,7 @@ const LOQ_CONFIG = {
    "code": "LEN",
    "name": "Living Environment",
    "label": "Living\nEnvironment",
+   "label_hy": "Բնակության\nմիջավայր",
    "cluster": "Foundation",
    "color": "#628C83",
    "gate": null
@@ -68,6 +85,7 @@ const LOQ_CONFIG = {
    "code": "REL",
    "name": "Relations",
    "label": "Relations",
+   "label_hy": "Հարաբերություններ",
    "cluster": "Connection",
    "color": "#B8755E",
    "gate": null
@@ -76,6 +94,7 @@ const LOQ_CONFIG = {
    "code": "FAM",
    "name": "Family",
    "label": "Family",
+   "label_hy": "Ընտանիք",
    "cluster": "Connection",
    "color": "#BF7E66",
    "gate": null
@@ -84,6 +103,7 @@ const LOQ_CONFIG = {
    "code": "CID",
    "name": "Cultural Identity",
    "label": "Cultural\nIdentity",
+   "label_hy": "Մշակութային\nինքնություն",
    "cluster": "Connection",
    "color": "#C68870",
    "gate": null
@@ -92,6 +112,7 @@ const LOQ_CONFIG = {
    "code": "COM",
    "name": "Community Contribution",
    "label": "Community\nContribution",
+   "label_hy": "Ներդրում\nհամայնքին",
    "cluster": "Connection",
    "color": "#D49B82",
    "gate": null
@@ -100,6 +121,7 @@ const LOQ_CONFIG = {
    "code": "PAR",
    "name": "Parenting & Caregiving",
    "label": "Parenting &\nCaregiving",
+   "label_hy": "Ծնողավարություն\nև խնամք",
    "cluster": "Connection",
    "color": "#E2AE94",
    "gate": "1"
@@ -108,6 +130,7 @@ const LOQ_CONFIG = {
    "code": "SXI",
    "name": "Sexuality & Intimacy",
    "label": "Sexuality &\nIntimacy",
+   "label_hy": "Մտերմություն և\nռոմանտիկ կյանք",
    "cluster": "Connection",
    "color": "#F0C1A6",
    "gate": "2"
@@ -116,6 +139,7 @@ const LOQ_CONFIG = {
    "code": "MWB",
    "name": "Mental Well-Being",
    "label": "Mental\nWell-Being",
+   "label_hy": "Հոգեկան\nբարեկեցություն",
    "cluster": "Internal Flow",
    "color": "#6B8E5F",
    "gate": null
@@ -124,6 +148,7 @@ const LOQ_CONFIG = {
    "code": "TMG",
    "name": "Time Management",
    "label": "Time\nManagement",
+   "label_hy": "Ժամանակի\nկառավարում",
    "cluster": "Internal Flow",
    "color": "#7FA073",
    "gate": null
@@ -132,6 +157,7 @@ const LOQ_CONFIG = {
    "code": "REC",
    "name": "Recreation & Leisure",
    "label": "Recreation &\nLeisure",
+   "label_hy": "Հանգիստ և\nժամանց",
    "cluster": "Internal Flow",
    "color": "#93B287",
    "gate": null
@@ -140,6 +166,7 @@ const LOQ_CONFIG = {
    "code": "SPI",
    "name": "Spirituality",
    "label": "Spirituality",
+   "label_hy": "Հոգևոր և\nինքնանդրադարձ",
    "cluster": "Internal Flow",
    "color": "#A7C49B",
    "gate": "3"
@@ -148,6 +175,7 @@ const LOQ_CONFIG = {
    "code": "CAR",
    "name": "Career & Achievement",
    "label": "Career &\nAchievement",
+   "label_hy": "Կարիերա և\nնվաճումներ",
    "cluster": "Expansion",
    "color": "#C19A47",
    "gate": null
@@ -156,6 +184,7 @@ const LOQ_CONFIG = {
    "code": "PGR",
    "name": "Personal Growth",
    "label": "Personal\nGrowth",
+   "label_hy": "Անձնային\nաճ",
    "cluster": "Expansion",
    "color": "#CDA95C",
    "gate": null
@@ -164,6 +193,7 @@ const LOQ_CONFIG = {
    "code": "MNP",
    "name": "Meaning & Purpose",
    "label": "Meaning &\nPurpose",
+   "label_hy": "Իմաստ և\nնպատակ",
    "cluster": "Expansion",
    "color": "#D9B871",
    "gate": null
@@ -172,6 +202,7 @@ const LOQ_CONFIG = {
    "code": "CEX",
    "name": "Creativity & Expression",
    "label": "Creativity &\nExpression",
+   "label_hy": "Ստեղծարարություն և\nինքնարտահայտում",
    "cluster": "Expansion",
    "color": "#E5C786",
    "gate": null

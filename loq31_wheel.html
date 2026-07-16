@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOQ 3.1 Life Orientation Wheel</title>
+    <title>Life Map · Կյանքի Քարտեզ — LOQ 3.1</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Armenian:wght@400;500;600&display=swap');
 
         * {
             margin: 0;
@@ -29,7 +29,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', 'Noto Sans Armenian', sans-serif;
             background: var(--bg);
             min-height: 100vh;
             padding: 1.25rem 1rem;
@@ -42,6 +42,7 @@
         }
 
         header {
+            position: relative;
             text-align: center;
             margin-bottom: 1.5rem;
             background: var(--teal);
@@ -407,23 +408,23 @@ l-5 221 557 6 c307 4 647 7 755 7 251 0 235 -12 234 184 0 102 -5 159 -18 206
 -58 98 -64 165 -9 271 -59 319 -150 31 -58 31 -192 0 -297 -42 -141 -459
 -1331 -467 -1331 -15 0 -786 1592 -792 1636 -12 93 55 131 252 144 l90 6 0 35
 0 35 -60 -1 c-316 -6 -886 -5 -947 1 -66 6 -79 5 -84 -8z" fill="#F2F0E6"/></g></svg></svg>
-            <h1>Life Orientation Wheel</h1>
-            <p class="subtitle">Scientific Assessment · Inner Cycle Lab</p>
+            <h1 id="pageTitle">Life Map</h1>
+            <p class="subtitle" id="pageSubtitle">Scientific Assessment · Inner Cycle Lab</p>
+            <a id="langToggle" href="#" style="position:absolute; top:1rem; right:1.25rem; color:#F2F0E6; opacity:0.85; font-size:0.8rem; letter-spacing:0.08em; text-decoration:none; border:1px solid rgba(242,240,230,0.4); padding:0.25rem 0.6rem; border-radius:4px; font-family:'JetBrains Mono', monospace;"></a>
         </header>
 
         <div class="main-content">
             <div class="input-section">
-                <h2>Raw Domain Scores</h2>
-                <p style="font-size: 0.75rem; margin-bottom: 1.5rem; opacity: 0.6;">Input score for each domain (Range:
-                    1 - 10).</p>
+                <h2 id="uiHeading">Raw Domain Scores</h2>
+                <p id="uiHint" style="font-size: 0.75rem; margin-bottom: 1.5rem; opacity: 0.6;">Input score for each domain (Range: 1 - 10).</p>
 
                 <div class="client-info">
                     <div class="info-group">
-                        <label for="clientName">Client Name</label>
+                        <label for="clientName" id="uiName">Client Name</label>
                         <input type="text" id="clientName">
                     </div>
                     <div class="info-group">
-                        <label for="assessmentDate">Assessment Date</label>
+                        <label for="assessmentDate" id="uiDate">Assessment Date</label>
                         <input type="date" id="assessmentDate">
                     </div>
                 </div>
@@ -431,32 +432,78 @@ l-5 221 557 6 c307 4 647 7 755 7 251 0 235 -12 234 184 0 102 -5 159 -18 206
                 <div id="domainInputs"></div>
 
                 <div class="button-group">
-                    <button class="btn-generate" id="generateBtn" onclick="generateWheel()">Generate Wheel</button>
+                    <button class="btn-generate" id="generateBtn" onclick="generateWheel()">Generate Map</button>
                     <button class="download-btn" id="downloadBtn" onclick="downloadWheel()">Download Image</button>
-                    <button class="btn-clear" onclick="fillDemoValues()">Demo</button>
-                    <button class="btn-clear" onclick="clearInputs()">Clear</button>
+                    <button class="btn-clear" onclick="fillDemoValues()" id="uiDemo">Demo</button>
+                    <button class="btn-clear" onclick="clearInputs()" id="uiClear">Clear</button>
                 </div>
             </div>
 
             <div class="visualization-section">
                 <canvas id="wheelCanvas" width="2000" height="2260"></canvas>
-                <div class="instructions">
-                    <strong>Interpretation:</strong> Input scores (1–10) for each domain (rounded to 0.1). A score of
-                    5.5
-                    represents the exact midpoint of the scale.
-                </div>
+                <div class="instructions" id="uiInstructions"></div>
             </div>
         </div>
     </div>
 
     <script src="loq_config.js"></script>
     <script>
+        // ---- language layer (?lang=hy) -------------------------------------
+        const LANG = new URLSearchParams(window.location.search).get('lang') === 'hy' ? 'hy' : 'en';
+        const I18N = {
+            en: {
+                heading: 'Raw Domain Scores',
+                hint: 'Input score for each domain (Range: 1 - 10).',
+                name: 'Client Name', date: 'Assessment Date',
+                generate: 'Generate Map', download: 'Download Image',
+                demo: 'Demo', clear: 'Clear',
+                instructions: '<strong>Interpretation:</strong> Input scores (1\u201310) for each domain (rounded to 0.1). A score of 5.5 represents the exact midpoint of the scale.',
+                score: 'SCORE', alertNoScores: 'Please enter scores',
+                fileBase: 'Life_Map'
+            },
+            hy: {
+                heading: 'Ոլորտների գնահատականներ',
+                hint: 'Մուտքագրեք յուրաքանչյուր ոլորտի գնահատականը (1-10):',
+                name: 'Հաճախորդի անուն', date: 'Գնահատման ամսաթիվ',
+                generate: 'Ստեղծել քարտեզը', download: 'Ներբեռնել պատկերը',
+                demo: 'Դեմո', clear: 'Մաքրել',
+                instructions: '<strong>Մեկնաբանություն․</strong> մուտքագրեք 1\u201310 միջակայքի գնահատականներ յուրաքանչյուր ոլորտի համար (0.1 ճշտությամբ)։ 5.5-ը սանդղակի ճիշտ միջնակետն է։',
+                score: 'ՄԻԱՎՈՐ', alertNoScores: 'Խնդրում ենք մուտքագրել գնահատականներ',
+                fileBase: 'Կյանքի_Քարտեզ'
+            }
+        };
+        const T = I18N[LANG];
+        const FONT_STACK = '"DM Sans", "Noto Sans Armenian", sans-serif';
+
+        document.title = 'Life Map · Կյանքի Քարտեզ — LOQ ' + LOQ_CONFIG.version;
+        document.getElementById('pageTitle').textContent = LOQ_CONFIG.title[LANG];
+        document.getElementById('pageSubtitle').textContent = LOQ_CONFIG.subtitle[LANG];
+        document.getElementById('uiHeading').textContent = T.heading;
+        document.getElementById('uiHint').textContent = T.hint;
+        document.getElementById('uiName').textContent = T.name;
+        document.getElementById('uiDate').textContent = T.date;
+        document.getElementById('generateBtn').textContent = T.generate;
+        document.getElementById('downloadBtn').textContent = T.download;
+        document.getElementById('uiDemo').textContent = T.demo;
+        document.getElementById('uiClear').textContent = T.clear;
+        document.getElementById('uiInstructions').innerHTML = T.instructions;
+        (function () {
+            const u = new URL(window.location);
+            u.searchParams.set('lang', LANG === 'hy' ? 'en' : 'hy');
+            const a = document.getElementById('langToggle');
+            a.href = u.toString();
+            a.textContent = LANG === 'hy' ? 'EN' : 'ՀԱՅ';
+        })();
+
         // Domains, clusters, colors, and gating all come from loq_config.js,
         // which is generated by generate_loq31.py. Nothing structural is
         // hardcoded in this file.
-        const clusters = LOQ_CONFIG.clusters;
+        const clusters = LOQ_CONFIG.clusters.map(c => ({
+            name: c.name, color: c.color,
+            display: LANG === 'hy' ? c.name_hy : c.name
+        }));
         const domains = LOQ_CONFIG.domains.map(d => ({
-            id: d.code, label: d.label, color: d.color, cluster: d.cluster,
+            id: d.code, label: LANG === 'hy' ? d.label_hy : d.label, color: d.color, cluster: d.cluster,
             optional: !!d.gate,
             checkboxId: d.gate ? ('include_' + d.code) : undefined
         }));
@@ -620,7 +667,7 @@ l-5 221 557 6 c307 4 647 7 755 7 251 0 235 -12 234 184 0 102 -5 159 -18 206
 
             const clusterHeader = document.createElement('h3');
             clusterHeader.style.cssText = `color: ${c.color}; font-size: 0.85rem; margin: 0 0 0.6rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); padding-bottom: 0.3rem;`;
-            clusterHeader.innerText = c.name;
+            clusterHeader.innerText = c.display;
             col.appendChild(clusterHeader);
 
             domains.filter(d => d.cluster === c.name).forEach((d, i) => {
@@ -709,7 +756,7 @@ l-5 221 557 6 c307 4 647 7 755 7 251 0 235 -12 234 184 0 102 -5 159 -18 206
             });
 
             const percentages = scores1to10.map(s => (s === null) ? 0 : (s / 10) * 100);
-            if (scores1to10.every(s => s === null)) { alert('Please enter scores'); return; }
+            if (scores1to10.every(s => s === null)) { alert(T.alertNoScores); return; }
 
             // Draw background with grid pattern
             ctx.fillStyle = '#F2F0E6'; ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -724,13 +771,13 @@ l-5 221 557 6 c307 4 647 7 755 7 251 0 235 -12 234 184 0 102 -5 159 -18 206
             }
 
             ctx.fillStyle = '#324D47'; ctx.fillRect(0, 0, canvas.width, headerHeight);
-            ctx.textAlign = 'center'; ctx.fillStyle = '#FFFFFF'; ctx.font = '600 85px "DM Sans"';
-            ctx.fillText('Life Orientation Wheel', centerX, 140);
+            ctx.textAlign = 'center'; ctx.fillStyle = '#FFFFFF'; ctx.font = '600 85px ' + FONT_STACK;
+            ctx.fillText(LOQ_CONFIG.title[LANG], centerX, 140);
 
             const clientName = document.getElementById('clientName').value;
             const dateVal = document.getElementById('assessmentDate').value;
-            let subText = (clientName && dateVal) ? `${clientName} | ${dateVal}` : (clientName || dateVal || `LOQ ${LOQ_CONFIG.version} · SCIENTIFIC ASSESSMENT`);
-            ctx.fillStyle = '#C19A47'; ctx.font = '500 40px "Inter"'; ctx.fillText(subText, centerX, 225);
+            let subText = (clientName && dateVal) ? `${clientName} | ${dateVal}` : (clientName || dateVal || 'LOQ ' + LOQ_CONFIG.version + ' · ' + LOQ_CONFIG.subtitle[LANG].toUpperCase());
+            ctx.fillStyle = '#C19A47'; ctx.font = '500 40px "Inter", "Noto Sans Armenian", sans-serif'; ctx.fillText(subText, centerX, 225);
 
             // Draw rings for scores 1-10 (dotted and transparent)
             ctx.strokeStyle = 'rgba(50,77,71,0.08)'; ctx.lineWidth = 1.2 * scale;
@@ -836,9 +883,17 @@ l-5 221 557 6 c307 4 647 7 755 7 251 0 235 -12 234 184 0 102 -5 159 -18 206
                 const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2 + labelRotationOffset;
                 const x = centerX + Math.cos(angle) * (maxRadius + 140);
                 const y = centerY + Math.sin(angle) * (maxRadius + 140);
-                ctx.fillStyle = '#1F1A14'; ctx.font = '600 32px DM Sans'; ctx.globalAlpha = 0.7;
-                d.label.split('\n').forEach((l, li) => ctx.fillText(l, x, y + (li - 0.5) * 45));
-                ctx.globalAlpha = 1; ctx.font = 'bold 38px DM Sans'; ctx.fillStyle = d.color;
+                // auto-shrink long labels (Armenian words can be wide) so neighbours don't collide
+                const lines = d.label.split('\n');
+                let labelSize = 32;
+                ctx.font = '600 ' + labelSize + 'px ' + FONT_STACK;
+                while (labelSize > 22 && Math.max(...lines.map(l => ctx.measureText(l).width)) > 280) {
+                    labelSize -= 1;
+                    ctx.font = '600 ' + labelSize + 'px ' + FONT_STACK;
+                }
+                ctx.fillStyle = '#1F1A14'; ctx.globalAlpha = 0.7;
+                lines.forEach((l, li) => ctx.fillText(l, x, y + (li - 0.5) * 45));
+                ctx.globalAlpha = 1; ctx.font = 'bold 38px ' + FONT_STACK; ctx.fillStyle = d.color;
                 const display = (scores1to10[i] !== null) ? scores1to10[i].toFixed(1) : '0.0';
                 ctx.fillText(display + '/10', x, y + 80);
             });
@@ -849,8 +904,8 @@ l-5 221 557 6 c307 4 647 7 755 7 251 0 235 -12 234 184 0 102 -5 159 -18 206
             const finalAvg = (Math.round(avg * 10) / 10).toFixed(1);
             ctx.beginPath(); ctx.arc(centerX, centerY, 95, 0, Math.PI * 2); ctx.fillStyle = '#F2F0E6'; ctx.fill();
             ctx.strokeStyle = '#C19A47'; ctx.lineWidth = 7 * scale; ctx.stroke();
-            ctx.fillStyle = '#324D47'; ctx.font = 'bold 65px DM Sans'; ctx.fillText(finalAvg, centerX, centerY + 13);
-            ctx.font = '24px JetBrains Mono'; ctx.globalAlpha = 0.5; ctx.fillText('SCORE', centerX, centerY + 52);
+            ctx.fillStyle = '#324D47'; ctx.font = 'bold 65px ' + FONT_STACK; ctx.fillText(finalAvg, centerX, centerY + 13);
+            ctx.font = '24px "JetBrains Mono", "Noto Sans Armenian", monospace'; ctx.globalAlpha = 0.5; ctx.fillText(T.score, centerX, centerY + 52);
 
             // Cluster Summary Boxes
             const boxWidth = 380; const boxHeight = 120; const pad = 60;
@@ -869,9 +924,9 @@ l-5 221 557 6 c307 4 647 7 755 7 251 0 235 -12 234 184 0 102 -5 159 -18 206
                 if (score === null) return;
                 ctx.fillStyle = '#FFFFFF'; ctx.shadowBlur = 15; ctx.fillRect(pos.x, pos.y, boxWidth, boxHeight); ctx.shadowBlur = 0;
                 ctx.fillStyle = c.color; ctx.fillRect(pos.x, pos.y, 10, boxHeight);
-                ctx.textAlign = 'left'; ctx.fillStyle = '#1F1A14'; ctx.font = '600 24px JetBrains Mono'; ctx.globalAlpha = 0.5;
-                ctx.fillText(c.name.toUpperCase(), pos.x + 30, pos.y + 45);
-                ctx.globalAlpha = 1.0; ctx.font = 'bold 45px DM Sans'; ctx.fillStyle = c.color;
+                ctx.textAlign = 'left'; ctx.fillStyle = '#1F1A14'; ctx.font = '600 24px "JetBrains Mono", "Noto Sans Armenian", monospace'; ctx.globalAlpha = 0.5;
+                ctx.fillText(c.display.toUpperCase(), pos.x + 30, pos.y + 45);
+                ctx.globalAlpha = 1.0; ctx.font = 'bold 45px ' + FONT_STACK; ctx.fillStyle = c.color;
                 ctx.fillText(score.toFixed(1) + '/10.0', pos.x + 30, pos.y + 90);
             });
 
@@ -937,7 +992,7 @@ l-5 221 557 6 c307 4 647 7 755 7 251 0 235 -12 234 184 0 102 -5 159 -18 206
                 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 dateStr = '_' + String(d.getDate()).padStart(2, '0') + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
             }
-            l.download = `LOQ${LOQ_CONFIG.version}_${name}${dateStr}.png`;
+            l.download = `${T.fileBase}_${name}${dateStr}.png`;
             l.href = c.toDataURL(); l.click();
         }
     </script>
