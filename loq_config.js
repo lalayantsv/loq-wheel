@@ -873,5 +873,24 @@ const LOQ_CONFIG = {
    "reverse": true,
    "validity": null
   }
- ]
+ ],
+ "validity": {
+  "attention": [
+   {
+    "code": "V_ATT_1",
+    "correct": 5,
+    "tolerance": 1
+   },
+   {
+    "code": "V_ATT_2",
+    "correct": 2,
+    "tolerance": 1
+   }
+  ],
+  "social_desirability": {
+   "code": "V_SD_1",
+   "flag_value": 6,
+   "high_mean_threshold": 8.3
+  }
+ }
 };
