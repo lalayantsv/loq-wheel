@@ -7,6 +7,7 @@ const LOQ_CONFIG = {
   "max": 6
  },
  "scoring": {
+  "reverse_applied_in": "qualtrics",
   "reverse_formula": "(max+1) - x",
   "domain_formula": "round(mean(keyed items) / max * 10, 1)"
  },
