@@ -112,7 +112,7 @@ const LOQ_CONFIG = {
    "code": "COM",
    "name": "Community Contribution",
    "label": "Community\nContribution",
-   "label_hy": "Ներդրում\nհամայնքին",
+   "label_hy": "Ներգրավվածություն\nհամայնքում",
    "cluster": "Connection",
    "color": "#D49B82",
    "gate": null
@@ -270,11 +270,6 @@ const LOQ_CONFIG = {
    "header": "DistributionChannel",
    "source": "meta",
    "field": "distributionChannel"
-  },
-  {
-   "header": "Informed Consent",
-   "source": "question",
-   "tag": "CONSENT"
   }
  ],
  "items": [

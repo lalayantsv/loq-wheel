@@ -878,21 +878,24 @@ l-5 221 557 6 c307 4 647 7 755 7 251 0 235 -12 234 184 0 102 -5 159 -18 206
             });
 
 
-            // Labels positioned outside the outermost circle (horizontal text)
+            // Labels positioned outside the outermost circle (horizontal text).
+            // One shared font size for ALL labels: shrink until the widest line of
+            // any label fits, so long Armenian names don't force uneven sizing.
+            let labelSize = 32;
+            ctx.font = '600 ' + labelSize + 'px ' + FONT_STACK;
+            const widestLabelLine = () => Math.max(...activeDomains.flatMap(
+                d => d.label.split('\n').map(l => ctx.measureText(l).width)));
+            while (labelSize > 22 && widestLabelLine() > 280) {
+                labelSize -= 1;
+                ctx.font = '600 ' + labelSize + 'px ' + FONT_STACK;
+            }
             activeDomains.forEach((d, i) => {
                 const angle = (Math.PI * 2 / activeDomains.length) * i - Math.PI / 2 + labelRotationOffset;
                 const x = centerX + Math.cos(angle) * (maxRadius + 140);
                 const y = centerY + Math.sin(angle) * (maxRadius + 140);
-                // auto-shrink long labels (Armenian words can be wide) so neighbours don't collide
-                const lines = d.label.split('\n');
-                let labelSize = 32;
                 ctx.font = '600 ' + labelSize + 'px ' + FONT_STACK;
-                while (labelSize > 22 && Math.max(...lines.map(l => ctx.measureText(l).width)) > 280) {
-                    labelSize -= 1;
-                    ctx.font = '600 ' + labelSize + 'px ' + FONT_STACK;
-                }
                 ctx.fillStyle = '#1F1A14'; ctx.globalAlpha = 0.7;
-                lines.forEach((l, li) => ctx.fillText(l, x, y + (li - 0.5) * 45));
+                d.label.split('\n').forEach((l, li) => ctx.fillText(l, x, y + (li - 0.5) * 45));
                 ctx.globalAlpha = 1; ctx.font = 'bold 38px ' + FONT_STACK; ctx.fillStyle = d.color;
                 const display = (scores1to10[i] !== null) ? scores1to10[i].toFixed(1) : '0.0';
                 ctx.fillText(display + '/10', x, y + 80);
