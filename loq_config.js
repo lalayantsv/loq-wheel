@@ -12,7 +12,7 @@ const LOQ_CONFIG = {
   "domain_formula": "round(mean(keyed items) / max * 10, 1)"
  },
  "wheel_base_url": "https://lalayantsv.github.io/loq-wheel/loq31_wheel.html",
- "sections_tag": "SCR_SECTIONS",
+ "sections_tag": "Optionals",
  "clusters": [
   {
    "name": "Foundation",
@@ -142,7 +142,7 @@ const LOQ_CONFIG = {
    "label": "Spirituality",
    "cluster": "Internal Flow",
    "color": "#A7C49B",
-   "gate": null
+   "gate": "3"
   },
   {
    "code": "CAR",
@@ -187,23 +187,28 @@ const LOQ_CONFIG = {
    "header": "G2",
    "domain": "SXI",
    "choice": "2"
+  },
+  {
+   "header": "G3",
+   "domain": "SPI",
+   "choice": "3"
   }
  ],
  "meta_columns": [
   {
    "header": "Full Name",
    "source": "question",
-   "tag": "FULL_NAME"
+   "tag": "C1"
   },
   {
    "header": "Email",
    "source": "question",
-   "tag": "EMAIL"
+   "tag": "C2"
   },
   {
    "header": "Phone Number",
    "source": "question",
-   "tag": "PHONE"
+   "tag": "C3"
   },
   {
    "header": "StartDate",
@@ -244,7 +249,7 @@ const LOQ_CONFIG = {
  "items": [
   {
    "s": 1,
-   "tag": "Q01_FWB_1",
+   "tag": "Q01_FWB_1_HY",
    "code": "FWB_1",
    "domain": "FWB",
    "reverse": true,
@@ -252,7 +257,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 2,
-   "tag": "Q02_REL_1",
+   "tag": "Q02_REL_1_HY",
    "code": "REL_1",
    "domain": "REL",
    "reverse": false,
@@ -260,7 +265,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 3,
-   "tag": "Q03_PWB_1",
+   "tag": "Q03_PWB_1_HY",
    "code": "PWB_1",
    "domain": "PWB",
    "reverse": false,
@@ -268,7 +273,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 4,
-   "tag": "Q04_CAR_1",
+   "tag": "Q04_CAR_1_HY",
    "code": "CAR_1",
    "domain": "CAR",
    "reverse": true,
@@ -276,7 +281,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 5,
-   "tag": "Q05_FAM_1",
+   "tag": "Q05_FAM_1_HY",
    "code": "FAM_1",
    "domain": "FAM",
    "reverse": false,
@@ -284,7 +289,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 6,
-   "tag": "Q06_MWB_1",
+   "tag": "Q06_MWB_1_HY",
    "code": "MWB_1",
    "domain": "MWB",
    "reverse": false,
@@ -292,7 +297,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 7,
-   "tag": "Q07_LEN_1",
+   "tag": "Q07_LEN_1_HY",
    "code": "LEN_1",
    "domain": "LEN",
    "reverse": true,
@@ -300,7 +305,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 8,
-   "tag": "Q08_SPI_1",
+   "tag": "Q08_SPI_1_HY",
    "code": "SPI_1",
    "domain": "SPI",
    "reverse": false,
@@ -308,7 +313,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 9,
-   "tag": "Q09_TMG_1",
+   "tag": "Q09_TMG_1_HY",
    "code": "TMG_1",
    "domain": "TMG",
    "reverse": true,
@@ -316,7 +321,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 10,
-   "tag": "Q10_CID_1",
+   "tag": "Q10_CID_1_HY",
    "code": "CID_1",
    "domain": "CID",
    "reverse": false,
@@ -324,7 +329,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 11,
-   "tag": "Q11_REC_1",
+   "tag": "Q11_REC_1_HY",
    "code": "REC_1",
    "domain": "REC",
    "reverse": false,
@@ -332,7 +337,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 12,
-   "tag": "Q12_MNP_1",
+   "tag": "Q12_MNP_1_HY",
    "code": "MNP_1",
    "domain": "MNP",
    "reverse": false,
@@ -340,7 +345,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 13,
-   "tag": "Q13_SEC_1",
+   "tag": "Q13_SEC_1_HY",
    "code": "SEC_1",
    "domain": "SEC",
    "reverse": false,
@@ -348,7 +353,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 14,
-   "tag": "Q14_CEX_1",
+   "tag": "Q14_CEX_1_HY",
    "code": "CEX_1",
    "domain": "CEX",
    "reverse": false,
@@ -356,7 +361,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 15,
-   "tag": "Q15_COM_1",
+   "tag": "Q15_COM_1_HY",
    "code": "COM_1",
    "domain": "COM",
    "reverse": false,
@@ -364,7 +369,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 16,
-   "tag": "Q16_PGR_1",
+   "tag": "Q16_PGR_1_HY",
    "code": "PGR_1",
    "domain": "PGR",
    "reverse": false,
@@ -372,7 +377,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 17,
-   "tag": "Q17_SXI_1",
+   "tag": "Q17_SXI_1_HY",
    "code": "SXI_1",
    "domain": "SXI",
    "reverse": true,
@@ -380,7 +385,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 18,
-   "tag": "Q18_PAR_1",
+   "tag": "Q18_PAR_1_HY",
    "code": "PAR_1",
    "domain": "PAR",
    "reverse": false,
@@ -388,7 +393,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 19,
-   "tag": "Q19_MNP_2",
+   "tag": "Q19_MNP_2_HY",
    "code": "MNP_2",
    "domain": "MNP",
    "reverse": true,
@@ -396,7 +401,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 20,
-   "tag": "Q20_PWB_2",
+   "tag": "Q20_PWB_2_HY",
    "code": "PWB_2",
    "domain": "PWB",
    "reverse": true,
@@ -404,7 +409,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 21,
-   "tag": "Q21_FAM_2",
+   "tag": "Q21_FAM_2_HY",
    "code": "FAM_2",
    "domain": "FAM",
    "reverse": true,
@@ -412,7 +417,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 22,
-   "tag": "Q22_TMG_2",
+   "tag": "Q22_TMG_2_HY",
    "code": "TMG_2",
    "domain": "TMG",
    "reverse": false,
@@ -420,7 +425,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 23,
-   "tag": "Q23_SEC_2",
+   "tag": "Q23_SEC_2_HY",
    "code": "SEC_2",
    "domain": "SEC",
    "reverse": false,
@@ -428,7 +433,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 24,
-   "tag": "Q24_REL_2",
+   "tag": "Q24_REL_2_HY",
    "code": "REL_2",
    "domain": "REL",
    "reverse": true,
@@ -436,7 +441,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 25,
-   "tag": "Q25_V_ATT_1",
+   "tag": "Q25_V_ATT_1_HY",
    "code": "V_ATT_1",
    "domain": null,
    "reverse": false,
@@ -444,7 +449,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 26,
-   "tag": "Q26_CID_2",
+   "tag": "Q26_CID_2_HY",
    "code": "CID_2",
    "domain": "CID",
    "reverse": true,
@@ -452,7 +457,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 27,
-   "tag": "Q27_CAR_2",
+   "tag": "Q27_CAR_2_HY",
    "code": "CAR_2",
    "domain": "CAR",
    "reverse": false,
@@ -460,7 +465,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 28,
-   "tag": "Q28_REC_2",
+   "tag": "Q28_REC_2_HY",
    "code": "REC_2",
    "domain": "REC",
    "reverse": true,
@@ -468,7 +473,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 29,
-   "tag": "Q29_FWB_2",
+   "tag": "Q29_FWB_2_HY",
    "code": "FWB_2",
    "domain": "FWB",
    "reverse": false,
@@ -476,7 +481,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 30,
-   "tag": "Q30_SPI_2",
+   "tag": "Q30_SPI_2_HY",
    "code": "SPI_2",
    "domain": "SPI",
    "reverse": true,
@@ -484,7 +489,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 31,
-   "tag": "Q31_COM_2",
+   "tag": "Q31_COM_2_HY",
    "code": "COM_2",
    "domain": "COM",
    "reverse": false,
@@ -492,7 +497,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 32,
-   "tag": "Q32_MWB_2",
+   "tag": "Q32_MWB_2_HY",
    "code": "MWB_2",
    "domain": "MWB",
    "reverse": true,
@@ -500,7 +505,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 33,
-   "tag": "Q33_PGR_2",
+   "tag": "Q33_PGR_2_HY",
    "code": "PGR_2",
    "domain": "PGR",
    "reverse": true,
@@ -508,7 +513,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 34,
-   "tag": "Q34_LEN_2",
+   "tag": "Q34_LEN_2_HY",
    "code": "LEN_2",
    "domain": "LEN",
    "reverse": false,
@@ -516,7 +521,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 35,
-   "tag": "Q35_SXI_2",
+   "tag": "Q35_SXI_2_HY",
    "code": "SXI_2",
    "domain": "SXI",
    "reverse": false,
@@ -524,7 +529,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 36,
-   "tag": "Q36_PAR_2",
+   "tag": "Q36_PAR_2_HY",
    "code": "PAR_2",
    "domain": "PAR",
    "reverse": false,
@@ -532,7 +537,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 37,
-   "tag": "Q37_CEX_2",
+   "tag": "Q37_CEX_2_HY",
    "code": "CEX_2",
    "domain": "CEX",
    "reverse": true,
@@ -540,7 +545,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 38,
-   "tag": "Q38_CAR_3",
+   "tag": "Q38_CAR_3_HY",
    "code": "CAR_3",
    "domain": "CAR",
    "reverse": true,
@@ -548,7 +553,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 39,
-   "tag": "Q39_LEN_3",
+   "tag": "Q39_LEN_3_HY",
    "code": "LEN_3",
    "domain": "LEN",
    "reverse": true,
@@ -556,7 +561,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 40,
-   "tag": "Q40_MWB_3",
+   "tag": "Q40_MWB_3_HY",
    "code": "MWB_3",
    "domain": "MWB",
    "reverse": true,
@@ -564,7 +569,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 41,
-   "tag": "Q41_FWB_3",
+   "tag": "Q41_FWB_3_HY",
    "code": "FWB_3",
    "domain": "FWB",
    "reverse": false,
@@ -572,7 +577,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 42,
-   "tag": "Q42_SXI_3",
+   "tag": "Q42_SXI_3_HY",
    "code": "SXI_3",
    "domain": "SXI",
    "reverse": false,
@@ -580,7 +585,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 43,
-   "tag": "Q43_SPI_3",
+   "tag": "Q43_SPI_3_HY",
    "code": "SPI_3",
    "domain": "SPI",
    "reverse": true,
@@ -588,7 +593,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 44,
-   "tag": "Q44_REL_3",
+   "tag": "Q44_REL_3_HY",
    "code": "REL_3",
    "domain": "REL",
    "reverse": false,
@@ -596,7 +601,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 45,
-   "tag": "Q45_PGR_3",
+   "tag": "Q45_PGR_3_HY",
    "code": "PGR_3",
    "domain": "PGR",
    "reverse": false,
@@ -604,7 +609,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 46,
-   "tag": "Q46_FAM_3",
+   "tag": "Q46_FAM_3_HY",
    "code": "FAM_3",
    "domain": "FAM",
    "reverse": false,
@@ -612,7 +617,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 47,
-   "tag": "Q47_SEC_3",
+   "tag": "Q47_SEC_3_HY",
    "code": "SEC_3",
    "domain": "SEC",
    "reverse": true,
@@ -620,7 +625,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 48,
-   "tag": "Q48_COM_3",
+   "tag": "Q48_COM_3_HY",
    "code": "COM_3",
    "domain": "COM",
    "reverse": true,
@@ -628,7 +633,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 49,
-   "tag": "Q49_PWB_3",
+   "tag": "Q49_PWB_3_HY",
    "code": "PWB_3",
    "domain": "PWB",
    "reverse": false,
@@ -636,7 +641,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 50,
-   "tag": "Q50_TMG_3",
+   "tag": "Q50_TMG_3_HY",
    "code": "TMG_3",
    "domain": "TMG",
    "reverse": false,
@@ -644,7 +649,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 51,
-   "tag": "Q51_REC_3",
+   "tag": "Q51_REC_3_HY",
    "code": "REC_3",
    "domain": "REC",
    "reverse": true,
@@ -652,7 +657,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 52,
-   "tag": "Q52_CID_3",
+   "tag": "Q52_CID_3_HY",
    "code": "CID_3",
    "domain": "CID",
    "reverse": false,
@@ -660,7 +665,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 53,
-   "tag": "Q53_PAR_3",
+   "tag": "Q53_PAR_3_HY",
    "code": "PAR_3",
    "domain": "PAR",
    "reverse": true,
@@ -668,7 +673,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 54,
-   "tag": "Q54_V_ATT_2",
+   "tag": "Q54_V_ATT_2_HY",
    "code": "V_ATT_2",
    "domain": null,
    "reverse": false,
@@ -676,7 +681,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 55,
-   "tag": "Q55_MNP_3",
+   "tag": "Q55_MNP_3_HY",
    "code": "MNP_3",
    "domain": "MNP",
    "reverse": true,
@@ -684,7 +689,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 56,
-   "tag": "Q56_CEX_3",
+   "tag": "Q56_CEX_3_HY",
    "code": "CEX_3",
    "domain": "CEX",
    "reverse": false,
@@ -692,7 +697,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 57,
-   "tag": "Q57_REL_4",
+   "tag": "Q57_REL_4_HY",
    "code": "REL_4",
    "domain": "REL",
    "reverse": true,
@@ -700,7 +705,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 58,
-   "tag": "Q58_SEC_4",
+   "tag": "Q58_SEC_4_HY",
    "code": "SEC_4",
    "domain": "SEC",
    "reverse": true,
@@ -708,7 +713,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 59,
-   "tag": "Q59_FWB_4",
+   "tag": "Q59_FWB_4_HY",
    "code": "FWB_4",
    "domain": "FWB",
    "reverse": true,
@@ -716,7 +721,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 60,
-   "tag": "Q60_PGR_4",
+   "tag": "Q60_PGR_4_HY",
    "code": "PGR_4",
    "domain": "PGR",
    "reverse": true,
@@ -724,7 +729,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 61,
-   "tag": "Q61_SPI_4",
+   "tag": "Q61_SPI_4_HY",
    "code": "SPI_4",
    "domain": "SPI",
    "reverse": false,
@@ -732,7 +737,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 62,
-   "tag": "Q62_CAR_4",
+   "tag": "Q62_CAR_4_HY",
    "code": "CAR_4",
    "domain": "CAR",
    "reverse": false,
@@ -740,7 +745,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 63,
-   "tag": "Q63_PAR_4",
+   "tag": "Q63_PAR_4_HY",
    "code": "PAR_4",
    "domain": "PAR",
    "reverse": true,
@@ -748,7 +753,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 64,
-   "tag": "Q64_MWB_4",
+   "tag": "Q64_MWB_4_HY",
    "code": "MWB_4",
    "domain": "MWB",
    "reverse": true,
@@ -756,7 +761,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 65,
-   "tag": "Q65_CID_4",
+   "tag": "Q65_CID_4_HY",
    "code": "CID_4",
    "domain": "CID",
    "reverse": true,
@@ -764,7 +769,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 66,
-   "tag": "Q66_TMG_4",
+   "tag": "Q66_TMG_4_HY",
    "code": "TMG_4",
    "domain": "TMG",
    "reverse": true,
@@ -772,7 +777,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 67,
-   "tag": "Q67_COM_4",
+   "tag": "Q67_COM_4_HY",
    "code": "COM_4",
    "domain": "COM",
    "reverse": true,
@@ -780,7 +785,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 68,
-   "tag": "Q68_FAM_4",
+   "tag": "Q68_FAM_4_HY",
    "code": "FAM_4",
    "domain": "FAM",
    "reverse": false,
@@ -788,7 +793,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 69,
-   "tag": "Q69_PWB_4",
+   "tag": "Q69_PWB_4_HY",
    "code": "PWB_4",
    "domain": "PWB",
    "reverse": true,
@@ -796,7 +801,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 70,
-   "tag": "Q70_MNP_4",
+   "tag": "Q70_MNP_4_HY",
    "code": "MNP_4",
    "domain": "MNP",
    "reverse": false,
@@ -804,7 +809,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 71,
-   "tag": "Q71_SXI_4",
+   "tag": "Q71_SXI_4_HY",
    "code": "SXI_4",
    "domain": "SXI",
    "reverse": true,
@@ -812,7 +817,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 72,
-   "tag": "Q72_REC_4",
+   "tag": "Q72_REC_4_HY",
    "code": "REC_4",
    "domain": "REC",
    "reverse": false,
@@ -820,7 +825,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 73,
-   "tag": "Q73_LEN_4",
+   "tag": "Q73_LEN_4_HY",
    "code": "LEN_4",
    "domain": "LEN",
    "reverse": false,
@@ -828,7 +833,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 74,
-   "tag": "Q74_V_SD_1",
+   "tag": "Q74_V_SD_1_HY",
    "code": "V_SD_1",
    "domain": null,
    "reverse": false,
@@ -836,7 +841,7 @@ const LOQ_CONFIG = {
   },
   {
    "s": 75,
-   "tag": "Q75_CEX_4",
+   "tag": "Q75_CEX_4_HY",
    "code": "CEX_4",
    "domain": "CEX",
    "reverse": true,
